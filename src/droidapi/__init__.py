@@ -1,3 +1,7 @@
+__author__ = "Anna-Sophie Zaitsewa"
+__email__ = "f104a@f104a.io"
+__version__ = "0.1.0"
+
 from droidapi import app
 from droidapi.db import db
 
@@ -13,7 +17,7 @@ if DEBUG:
     app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite://'
     app.config["SECRET_KEY"] = '12345'
     app.config["UPLOAD_FOLDER"] = '/tmp'
-    app.config["UPLOAD_URL"] = 'http://127.0.0.1:5000'
+    app.config["UPLOADS_URL"] = 'http://127.0.0.1:5000/updates/'
     print("!! App running in debug mode, DB and secrets parameters are overriden to avoid data loss and breaches")
 
 db.init_app(app)

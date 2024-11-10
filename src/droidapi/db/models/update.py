@@ -20,7 +20,7 @@ class Update(BaseModel):
 
     def to_dict(self):
         return dict(
-            datetime=self.timestamp,
+            datetime=int(self.timestamp.timestamp()),
             filename=self.file_name,
             romtype=self.buildtype,
             size=self.size,
