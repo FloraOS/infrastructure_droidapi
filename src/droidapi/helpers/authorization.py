@@ -3,9 +3,6 @@ import _sha512
 import string
 import secrets
 from datetime import datetime, timedelta
-from typing import Tuple
-
-from click import Tuple
 from flask import request
 
 from droidapi.db.models.statictoken import StaticToken

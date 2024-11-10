@@ -8,6 +8,7 @@ from droidapi.app import app
 from droidapi.db import db
 from droidapi.db.models.update import Update
 from droidapi.helpers.authorization import authorized_only
+from droidapi.helpers.form import need_form_fields
 
 
 def update_from_form(form, file, filename, device, build_type, build_id) -> Update:
@@ -17,15 +18,16 @@ def update_from_form(form, file, filename, device, build_type, build_id) -> Upda
     update_model.base_version = form["base_version"]
     update_model.file_id = _md5.md5(file + device + build_type + build_id).hexdigest()
     update_model.url = app.config["UPLOADS_URL"] + filename
-    update.build_id = build_id
+    update_model.build_id = build_id
     update_model.size = file.size()
     return update_model
 
 @app.route("/api/v1/update/push/<device>/<buildtype>/<build_id>", methods=["POST"])
 @authorized_only
+@need_form_fields(["base_version", "isotime"])
 def update_push(device: str, buildtype: str, build_id: str):
     if 'ota.zip' not in request.files:
-        return 400, {"status": "no_file"}
+        return {"status": "no_file"}, 400
     file = request.files['file']
     filename = f"FloraOS-{build_id}-{device}-{buildtype}-OTA.zip"
     filename = secure_filename(filename)
@@ -33,7 +35,7 @@ def update_push(device: str, buildtype: str, build_id: str):
     db.session.add(update_model)
     file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     db.session.commit()
-    return 201, {"status": "ok"}
+    return {"status": "ok"}, 201
 
 @app.route("/api/v1/update/<device>/<buildtype>/<build_id>", methods=["GET"])
 def update_get(device: str, buildtype: str, build_id: str):

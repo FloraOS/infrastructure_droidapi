@@ -9,9 +9,13 @@ from droidapi.helpers.authorization import generate_token
 DEBUG = True
 
 if DEBUG:
+    # We override some parametes here, just in case someone tries to run debug app on production
     app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite://'
     app.config["SECRET_KEY"] = '12345'
+    app.config["UPLOAD_FOLDER"] = '/tmp'
+    app.config["UPLOAD_URL"] = 'http://127.0.0.1:5000'
     print("!! App running in debug mode, DB and secrets parameters are overriden to avoid data loss and breaches")
+
 db.init_app(app)
 
 with app.app_context():
