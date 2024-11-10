@@ -2,7 +2,6 @@ import os
 from datetime import datetime
 import _md5
 from flask import request
-from sqlalchemy.sql.functions import current_timestamp
 from werkzeug.utils import secure_filename
 
 from droidapi.app import app
@@ -22,7 +21,7 @@ def update_from_form(form, file, filename, device, build_type, build_id) -> Upda
     update_model.size = file.size()
     return update_model
 
-@app.route("/api/v1/update/<device: str>/<buildtype: str>/<build_id: str>/push", methods=["POST"])
+@app.route("/api/v1/update/push/<device>/<buildtype>/<build_id>", methods=["POST"])
 @authorized_only
 def update_push(device: str, buildtype: str, build_id: str):
     if 'ota.zip' not in request.files:
@@ -36,7 +35,7 @@ def update_push(device: str, buildtype: str, build_id: str):
     db.session.commit()
     return 201, {"status": "ok"}
 
-@app.route("/api/v1/update/<device: str>/<buildtype: str>/<build_id: str>", methods=["GET"])
+@app.route("/api/v1/update/<device>/<buildtype>/<build_id>", methods=["GET"])
 def update_get(device: str, buildtype: str, build_id: str):
     # We assume that all updates are incremental
     current_version = db.session().query(Update).filter_by(build_id=build_id, device=device, buildtype=buildtype).first()

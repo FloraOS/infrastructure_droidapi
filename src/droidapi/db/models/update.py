@@ -1,20 +1,22 @@
-from sqlalchemy import DateTime, String, Integer
+import datetime
+
 from sqlalchemy.orm import Mapped, mapped_column
 
 from droidapi.db import BaseModel
 
 
 class Update(BaseModel):
+    __tablename__ = "updates"
     id: Mapped[int] = mapped_column(primary_key=True, auto_increment=True)
-    file_name: String
-    timestamp: DateTime
-    file_id: String
-    build_id: String
-    device: String
-    buildtype: String
-    size: Integer
-    url: String
-    base_version: String
+    file_name: Mapped[str]
+    timestamp: Mapped[datetime.datetime]
+    file_id: Mapped[str]
+    build_id: Mapped[str]
+    device: Mapped[str]
+    buildtype: Mapped[str]
+    size: Mapped[int]
+    url: Mapped[str]
+    base_version: Mapped[str]
 
     def to_dict(self):
         return dict(

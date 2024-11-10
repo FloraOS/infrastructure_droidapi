@@ -1,3 +1,5 @@
+import datetime
+
 from sqlalchemy import DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -5,7 +7,11 @@ from droidapi.db import BaseModel
 
 
 class StaticToken(BaseModel):
+    __tablename__ = "tokens"
     id: Mapped[int] = mapped_column(primary_key=True, auto_increment=True)
     token: Mapped[str] = mapped_column(unique=True)
-    issued_at: DateTime
-    expires_at: DateTime
+    issued_at: Mapped[datetime.datetime]
+    expires_at: Mapped[datetime.datetime]
+
+    def to_dict(self):
+        return dict(issued_at=self.issued_at.isoformat(), expires_at=self.expires_at.isoformat())
