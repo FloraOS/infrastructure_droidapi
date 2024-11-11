@@ -1,5 +1,5 @@
 import functools
-import _sha512
+import hashlib
 import string
 import secrets
 from datetime import datetime, timedelta
@@ -19,7 +19,7 @@ def authorized_only(func):
     def decorated(*args, **kwargs):
         if "X-DroidAPI-Token" not in request.headers:
             return {"status": "unauthorized"}, 401
-        token = _sha512.sha512((request.headers["X-DroidAPI-Token"] + app.config['SECRET_KEY']).encode()).hexdigest()
+        token = hashlib.sha512((request.headers["X-DroidAPI-Token"] + app.config['SECRET_KEY']).encode()).hexdigest()
         models = db.session.execute(db.select(StaticToken).where(StaticToken.token == token)).fetchall()
         if len(models) == 0:
             return {"status": "unauthorized"}, 401
@@ -56,7 +56,7 @@ def generate_token(secret_key, length=128, expire_days=7) -> tuple[StaticToken, 
     """
     model = StaticToken()
     unhashed_token =  generate_secure_string(length)
-    model.token = _sha512.sha512((unhashed_token +  secret_key).encode()).hexdigest()
+    model.token = hashlib.sha512((unhashed_token +  secret_key).encode()).hexdigest()
     model.issued_at = datetime.now()
     model.expires_at = datetime.now() + timedelta(days=expire_days)
     return model, unhashed_token

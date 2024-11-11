@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-import _md5
+import hashlib
 from flask import request
 from werkzeug.utils import secure_filename
 
@@ -18,7 +18,7 @@ def update_from_form(form, file, filename, device, build_type, build_id) -> Upda
     update_model.file_name = secure_filename(filename)
     update_model.timestamp = datetime.fromisoformat(form["isotime"])
     update_model.base_version = form["base_version"]
-    update_model.file_id = _md5.md5((filename + device + build_type + build_id).encode()).hexdigest()
+    update_model.file_id = hashlib.md5((filename + device + build_type + build_id).encode()).hexdigest()
     update_model.url = app.config["UPLOADS_URL"] + filename
     update_model.build_id = build_id
     update_model.device = device
