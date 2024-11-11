@@ -10,7 +10,7 @@ from droidapi.endpoints.update import *
 from droidapi.endpoints.status import *
 from droidapi.helpers.authorization import generate_token
 
-DEBUG = True
+DEBUG = False
 
 if DEBUG:
     # We override some parametes here, just in case someone tries to run debug app on production
