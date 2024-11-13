@@ -7,7 +7,7 @@ from droidapi.db import BaseModel
 
 class Update(BaseModel):
     __tablename__ = "updates"
-    id: Mapped[int] = mapped_column(primary_key=True, auto_increment=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
     file_name: Mapped[str]
     timestamp: Mapped[datetime.datetime]
     file_id: Mapped[str]

@@ -7,7 +7,7 @@ from droidapi.db import BaseModel
 
 class StaticToken(BaseModel):
     __tablename__ = "tokens"
-    id: Mapped[int] = mapped_column(primary_key=True, auto_increment=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
     token: Mapped[str] = mapped_column(unique=True)
     issued_at: Mapped[datetime.datetime]
     expires_at: Mapped[datetime.datetime]
