@@ -8,6 +8,7 @@ from droidapi.db import db
 # Add your endpoints specification imports here
 from droidapi.endpoints.update import *
 from droidapi.endpoints.status import *
+from droidapi.endpoints.media import *
 from droidapi.helpers.authorization import generate_token
 
 DEBUG = False
