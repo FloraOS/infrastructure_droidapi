@@ -3,6 +3,8 @@ LABEL authors=["0xf104a"]
 
 WORKDIR /opt
 
+RUN apt update -y && apt install -y libpq-dev python-dev
+
 COPY requirements.txt /tmp/
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 RUN rm /tmp/requirements.txt
