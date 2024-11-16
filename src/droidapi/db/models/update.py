@@ -26,4 +26,5 @@ class Update(BaseModel):
             size=self.size,
             url=self.url,
             version=self.base_version,
+            id=self.build_id,
         )
