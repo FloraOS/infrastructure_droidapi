@@ -3,7 +3,7 @@ LABEL authors=["0xf104a"]
 
 WORKDIR /opt
 
-RUN apt update -y && apt install -y libpq-dev python3-dev
+RUN apt update -y && apt install -y libpq-dev python3-dev gcc
 
 COPY requirements.txt /tmp/
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
@@ -16,4 +16,10 @@ ENV FLASK_ENV=production
 
 EXPOSE 8000
 
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8000", "droidapi:app"]
+ENTRYPOINT uwsgi --http-socket :8000\
+  -w droidapi:app\
+  --processes 4\
+  --threads 2\
+  --harakiri 1200\
+  --post-buffering 524288 \
+  --buffer-size 65535
