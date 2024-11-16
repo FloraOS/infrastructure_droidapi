@@ -42,6 +42,7 @@ def update_push(device: str, buildtype: str, build_id: str):
     if is_conflicting_update(device, buildtype, build_id):
         return {"status": "conflict"}, 409
     file = request.files['file']
+    buildtype = buildtype.lower()
     filename = f"{MODNAME}-{build_id}-{device}-{buildtype}-OTA.zip"
     filename = secure_filename(filename)
     update_model = update_from_form(request.form, file, filename, device, buildtype, build_id)
