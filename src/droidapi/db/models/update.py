@@ -2,10 +2,10 @@ import datetime
 
 from sqlalchemy.orm import Mapped, mapped_column
 
-from droidapi.db import BaseModel
+from droidapi.db import Base
 
 
-class Update(BaseModel):
+class Update(Base):
     __tablename__ = "updates"
     id: Mapped[int] = mapped_column(primary_key=True)
     file_name: Mapped[str]

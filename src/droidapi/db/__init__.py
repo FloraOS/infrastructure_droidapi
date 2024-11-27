@@ -1,5 +1,18 @@
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
 
-from droidapi.db.models import BaseModel
+from droidapi.config import get_database_uri
 
-db = SQLAlchemy(model_class=BaseModel)
+engine = create_engine(
+    get_database_uri(),
+    pool_pre_ping=True
+)
+
+Session = scoped_session(sessionmaker(bind=engine))
+
+def get_db_session():
+    """Return a scoped session."""
+    return Session()
+
+Base = declarative_base()

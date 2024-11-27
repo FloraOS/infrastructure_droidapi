@@ -18,8 +18,8 @@ EXPOSE 8000
 
 ENTRYPOINT uwsgi --http-socket :8000\
   -w droidapi:app\
-  --processes 1\
-  --threads 1\
+  --processes 4\
+  --threads 2\
   --harakiri 1200\
   --post-buffering 524288 \
   --buffer-size 65535
