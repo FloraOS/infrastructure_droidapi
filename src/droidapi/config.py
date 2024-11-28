@@ -1,6 +1,6 @@
 import os
 
-DEBUG = True
+DEBUG = False
 DEBUG_DB_URI = "sqlite:////tmp/db.sqlite3"
 
 def get_database_uri():
