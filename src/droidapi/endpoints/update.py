@@ -14,6 +14,8 @@ MODNAME = "FloraOS"
 
 def update_from_form(form, file, filename, device, build_type, build_id) -> Update:
     update_model = Update()
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    size = os.path.getsize(file_path)
     update_model.file_name = secure_filename(filename)
     update_model.timestamp = datetime.fromisoformat(form["isotime"])
     update_model.base_version = form["base_version"]
@@ -22,7 +24,7 @@ def update_from_form(form, file, filename, device, build_type, build_id) -> Upda
     update_model.build_id = build_id
     update_model.device = device
     update_model.buildtype = build_type
-    update_model.size = file.content_length
+    update_model.size = size
     return update_model
 
 
@@ -45,9 +47,9 @@ def update_push(device: str, buildtype: str, build_id: str):
     buildtype = buildtype.lower()
     filename = f"{MODNAME}-{build_id}-{device}-{buildtype}-OTA.zip"
     filename = secure_filename(filename)
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     update_model = update_from_form(request.form, file, filename, device, buildtype, build_id)
     session.add(update_model)
-    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
     session.commit()
     return {"status": "ok"}, 201
 
