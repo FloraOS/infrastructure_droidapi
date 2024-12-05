@@ -5,7 +5,7 @@ import secrets
 from datetime import datetime, timedelta
 from flask import request
 
-from droidapi.db import get_db_session
+from droidapi.db import get_db_session, engine
 from droidapi.db.models.statictoken import StaticToken
 from droidapi.app import app
 
@@ -21,7 +21,7 @@ def authorized_only(func):
             return {"status": "unauthorized"}, 401
         session = get_db_session()
         token = hashlib.sha512((request.headers["X-DroidAPI-Token"] + app.config['SECRET_KEY']).encode()).hexdigest()
-        models = session.execute(session.select(StaticToken).where(StaticToken.token == token)).fetchall()
+        models = session.execute(engine.select().where(StaticToken.token == token)).fetchall()
         if len(models) == 0:
             return {"status": "unauthorized"}, 401
         if len(models) > 1:
