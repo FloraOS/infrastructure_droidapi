@@ -26,7 +26,7 @@ def authorized_only(func):
             return {"status": "unauthorized"}, 401
         if len(models) > 1:
             raise ValueError("Multiple StaticTokens found")
-        model = models[0][0]
+        model = models[0]
         time = datetime.now()
         if time > model.expires_at or time < model.issued_at:
             return {"status": "unauthorized"}, 401
