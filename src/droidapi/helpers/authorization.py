@@ -21,7 +21,7 @@ def authorized_only(func):
             return {"status": "unauthorized"}, 401
         session = get_db_session()
         token = hashlib.sha512((request.headers["X-DroidAPI-Token"] + app.config['SECRET_KEY']).encode()).hexdigest()
-        models = session.execute(engine.select().where(StaticToken.token == token)).fetchall()
+        models = session.execute(engine.select().where(StaticToken.token == token)).fetchall() # pylint: disable=no-member
         if len(models) == 0:
             return {"status": "unauthorized"}, 401
         if len(models) > 1:
