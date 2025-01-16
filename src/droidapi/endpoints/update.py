@@ -57,6 +57,7 @@ def update_push(device: str, buildtype: str, build_id: str):
 @app.route("/api/v1/update/<device>/<buildtype>/<build_id>", methods=["GET"])
 def update_get(device: str, buildtype: str, build_id: str):
     session = get_db_session()
+    buildtype = buildtype.lower()
     # We assume that all updates are incremental
     current_version = session.query(Update).filter_by(build_id=build_id, device=device,
                                                            buildtype=buildtype).first()
