@@ -51,6 +51,7 @@ def update_push(device: str, buildtype: str, build_id: str):
     update_model = update_from_form(request.form, file, filename, device, buildtype, build_id)
     session.add(update_model)
     session.commit()
+    session.close()
     return {"status": "ok"}, 201
 
 
@@ -77,4 +78,5 @@ def update_get(device: str, buildtype: str, build_id: str):
                    .order_by(Update.timestamp)).first()
     if next_update is None:  # No updates
         return dict(response=list())
+    session.close()
     return dict(response=[next_update.to_dict()])
