@@ -76,7 +76,7 @@ def update_get(device: str, buildtype: str, build_id: str):
                    .filter(
         (Update.device == device) & (Update.buildtype == buildtype) & (Update.timestamp > current_timestamp))
                    .order_by(Update.timestamp)).first()
+    session.close()
     if next_update is None:  # No updates
         return dict(response=list())
-    session.close()
     return dict(response=[next_update.to_dict()])
