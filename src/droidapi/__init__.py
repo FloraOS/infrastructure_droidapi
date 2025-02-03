@@ -1,8 +1,6 @@
-__author__ = "Anna-Sophie Zaitsewa"
+__author__ = "Anna-Sophie Kasierocka"
 __email__ = "f104a@f104a.io"
-__version__ = "0.1.5"
-
-import os
+__version__ = "0.1.6"
 
 from droidapi import app
 from droidapi.db import Base, get_db_session, engine
